@@ -1,0 +1,355 @@
+{
+  "datasets": [
+    {
+      "name": "19ebd68c",
+      "displayName": "fact_transactions",
+      "config": {
+        "version": "1.1",
+        "source": "ecommerce.gold.fact_transactions",
+        "dimensions": [
+          {
+            "name": "transaction_id",
+            "expr": "source.transaction_id",
+            "displayName": "Transaction Id"
+          },
+          {
+            "name": "customer_id",
+            "expr": "source.customer_id",
+            "displayName": "Customer Id"
+          },
+          {
+            "name": "product_id",
+            "expr": "source.product_id",
+            "displayName": "Product Id"
+          },
+          {
+            "name": "sales_rep_id",
+            "expr": "source.sales_rep_id",
+            "displayName": "Sales Rep Id"
+          },
+          {
+            "name": "date_id",
+            "expr": "source.date_id",
+            "displayName": "Date Id"
+          },
+          {
+            "name": "transaction_date",
+            "expr": "source.transaction_date",
+            "displayName": "Transaction Date"
+          },
+          {
+            "name": "transaction_month",
+            "expr": "DATE_TRUNC('MONTH', source.transaction_date)",
+            "displayName": "Month"
+          },
+          {
+            "name": "payment_method",
+            "expr": "source.payment_method",
+            "displayName": "Payment Method"
+          },
+          {
+            "name": "status",
+            "expr": "source.status",
+            "displayName": "Status"
+          },
+          {
+            "name": "region",
+            "expr": "source.region",
+            "displayName": "Region"
+          },
+          {
+            "name": "quantity",
+            "expr": "source.quantity",
+            "displayName": "Quantity"
+          },
+          {
+            "name": "sales_person_commission_rate",
+            "expr": "source.sales_person_commission_rate",
+            "displayName": "Sales Person Commission Rate"
+          },
+          {
+            "name": "cost_price",
+            "expr": "source.cost_price",
+            "displayName": "Cost Price"
+          },
+          {
+            "name": "unit_price",
+            "expr": "source.unit_price",
+            "displayName": "Unit Price"
+          },
+          {
+            "name": "product_stock_quantity",
+            "expr": "source.product_stock_quantity",
+            "displayName": "Product Stock Quantity"
+          },
+          {
+            "name": "customers_life_time_value",
+            "expr": "source.customers_life_time_value",
+            "displayName": "Customers Life Time Value"
+          },
+          {
+            "name": "transaction_amount",
+            "expr": "source.transaction_amount",
+            "displayName": "Transaction Amount"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          },
+          {
+            "name": "total_transaction_amount",
+            "expr": "SUM(source.transaction_amount)",
+            "displayName": "Total Transaction Amount"
+          },
+          {
+            "name": "avg_transaction_amount",
+            "expr": "AVG(source.transaction_amount)",
+            "displayName": "Average Transaction Amount"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "9b6140b8",
+      "displayName": "Analysis",
+      "layout": [
+        {
+          "widget": {
+            "name": "monthly_trend",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "19ebd68c",
+                  "fields": [
+                    {
+                      "name": "transaction_month",
+                      "expression": "`transaction_month`"
+                    },
+                    {
+                      "name": "measure(total_transaction_amount)",
+                      "expression": "MEASURE(`total_transaction_amount`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Monthly Transactions Trend",
+                "showTitle": true,
+                "headerAlignment": "center",
+                "showDescription": false
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "transaction_month",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_transaction_amount)",
+                  "axis": {
+                    "hideLabels": false,
+                    "hideGrid": true,
+                    "hideTitle": true
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "customer_metrics",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "19ebd68c",
+                  "fields": [
+                    {
+                      "name": "customer_id",
+                      "expression": "`customer_id`"
+                    },
+                    {
+                      "name": "measure(total_transaction_amount)",
+                      "expression": "MEASURE(`total_transaction_amount`)"
+                    },
+                    {
+                      "name": "measure(avg_transaction_amount)",
+                      "expression": "MEASURE(`avg_transaction_amount`)"
+                    },
+                    {
+                      "name": "measure(count)",
+                      "expression": "MEASURE(`count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total and Average  Customer transactions transactions",
+                "showTitle": true,
+                "headerAlignment": "center"
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "customer_id",
+                    "useForSearch": true
+                  },
+                  {
+                    "fieldName": "measure(total_transaction_amount)",
+                    "useForSearch": false,
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "USD",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      },
+                      "hideGroupSeparator": true,
+                      "negativeSign": "accounting"
+                    }
+                  },
+                  {
+                    "fieldName": "measure(avg_transaction_amount)",
+                    "useForSearch": false,
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "USD",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 2
+                      },
+                      "hideGroupSeparator": true,
+                      "negativeSign": "accounting"
+                    }
+                  },
+                  {
+                    "fieldName": "measure(count)",
+                    "useForSearch": false
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "sales_rep_revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "19ebd68c",
+                  "fields": [
+                    {
+                      "name": "sales_rep_id",
+                      "expression": "`sales_rep_id`"
+                    },
+                    {
+                      "name": "measure(total_transaction_amount)",
+                      "expression": "MEASURE(`total_transaction_amount`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "frame": {
+                "title": "Revenue by Sales Representative",
+                "showTitle": true,
+                "headerAlignment": "center"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sales_rep_id",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(total_transaction_amount)",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
