@@ -130,16 +130,15 @@ This project implements an end-to-end data pipeline for e-commerce analytics usi
 ---
 
 ## Technology Stack
-┌───────────────────────────────────────────────┐
-| Component 					| Technology 					 		|
-|---------------------|-------------------------|
-| Cloud Storage 			| AWS S3 								 	|
-| Data Processing 		| Databricks (PySpark) 		|
-| Data Warehouse 			| Unity catalog						|
-| Orchestration 			| Databricks Notebooks 		|
-| Analytics 					| Databricks Dashboards   |
-| Language 						| Python, SQL 						|
-└───────────────────────────────────────────────┘
+
+| Component 		 | Technology 				  |
+|----------------|----------------------|
+| Cloud Storage  | AWS S3 						  |
+| Data Processing| Databricks (PySpark) |
+| Data Warehouse | Unity catalog			  |
+| Orchestration  | Databricks Notebooks |
+| Analytics 		 | Databricks Dashboards|
+| Language 			 | Python, SQL 					|
 ---
 
 ## Design Patterns
